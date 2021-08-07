@@ -5,7 +5,7 @@ import (
 	"log"
 	"sync"
 
-	"github.com/Planxnx/defi-tx-tools/package/contract"
+	"github.com/Planxnx/defi-tx-kit/package/contract"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/ethclient"

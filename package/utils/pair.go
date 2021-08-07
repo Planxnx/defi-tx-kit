@@ -1,8 +1,8 @@
 package utils
 
 import (
-	"github.com/Planxnx/defi-tx-tools/package/contract"
-	"github.com/Planxnx/defi-tx-tools/package/enums"
+	"github.com/Planxnx/defi-tx-kit/package/contract"
+	"github.com/Planxnx/defi-tx-kit/package/enums"
 	"github.com/ethereum/go-ethereum/core/types"
 )
 

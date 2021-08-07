@@ -1,4 +1,4 @@
-module github.com/Planxnx/defi-tx-tools
+module github.com/Planxnx/defi-tx-kit
 
 go 1.16
 

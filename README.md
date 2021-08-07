@@ -1,6 +1,6 @@
 # DeFi Tx Kits.
 
-> **A modular framework for building Ethereum-compatible infrastructure application.** Implements the [go-ethereum](https://github.com/ethereum/go-ethereum).
+> **A modular blockchain framework for building infrastructure application and Ethereum-compatible network integration services.** Implements the [go-ethereum](https://github.com/ethereum/go-ethereum).
 
 [![Golang](https://img.shields.io/badge/-EVM%20compatible-555555?style=flat&logo=Ethereum)](https://ethereum.org/en/developers/docs/evm/)
 [![Golang](https://badges.aleen42.com/src/golang.svg)](https://golang.org/)

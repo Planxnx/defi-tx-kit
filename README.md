@@ -1,3 +1,8 @@
+
+<h3 align="center">
+  <img align="right" src="https://user-images.githubusercontent.com/37617738/128595261-94098f32-9236-4151-a73a-f0f8e7e481e5.png" alt="go-eth" height="180" />
+</h3>
+
 # DeFi Tx Kits.
 
 > **A modular blockchain framework for building infrastructure application and Ethereum-compatible network integration services.** Implements the [go-ethereum](https://github.com/ethereum/go-ethereum).

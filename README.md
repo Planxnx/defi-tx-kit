@@ -13,7 +13,7 @@
 [![Build Status](https://travis-ci.com/Planxnx/defi-tx-kit.svg?branch=main)](https://travis-ci.com/Planxnx/defi-tx-kit)
 ![GitHub issues](https://img.shields.io/github/issues/Planxnx/defi-tx-kit)
 [![DeepSource](https://deepsource.io/gh/Planxnx/defi-tx-kit.svg/?label=active+issues)](https://deepsource.io/gh/Planxnx/defi-tx-kit/?ref=repository-badge)
-[![license](https://img.shields.io/badge/license-WTFPL%20--%20Do%20What%20the%20Fuck%20You%20Want%20to%20Public%20License-green.svg)](https://github.com/Planxnx/defi-tx-kit/blob/main/LICENSE)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/Planxnx/defi-tx-kit/blob/main/LICENSE)
 
 ## WIP 🚧
 

@@ -8,11 +8,6 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
-const (
-	//Thanks Nethereum!
-	infuraPrjectID = "7238211010344719ad14a89db874158c"
-)
-
 type Chain struct {
 	// Network Settings
 	id       int
@@ -31,8 +26,8 @@ var (
 		id:       1,
 		name:     "Ethereum",
 		currency: "ETH",
-		jsonRPC:  "https://mainnet.infura.io/v3/" + infuraPrjectID,
-		wsRPC:    "wss://mainnet.infura.io/ws/v3/" + infuraPrjectID,
+		jsonRPC:  "https://main-light.eth.linkpool.io/",
+		wsRPC:    "wss://main-light.eth.linkpool.io/ws",
 	}
 	ChainOptimisticEthereum = Chain{
 		id:       10,

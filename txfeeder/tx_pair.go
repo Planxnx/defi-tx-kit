@@ -3,9 +3,9 @@ package txfeeder
 import (
 	"context"
 
-	"github.com/Planxnx/defi-tx-kit/package/contract"
-	"github.com/Planxnx/defi-tx-kit/package/enums"
-	"github.com/Planxnx/defi-tx-kit/package/utils"
+	"github.com/Planxnx/defi-tx-kit/contract"
+	"github.com/Planxnx/defi-tx-kit/enums"
+	"github.com/Planxnx/defi-tx-kit/utils"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"

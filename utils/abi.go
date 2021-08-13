@@ -4,7 +4,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/Planxnx/defi-tx-kit/package/contract"
+	"github.com/Planxnx/defi-tx-kit/contract"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 )
 

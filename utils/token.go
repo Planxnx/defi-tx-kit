@@ -5,8 +5,8 @@ import (
 	"math"
 	"math/big"
 
-	"github.com/Planxnx/defi-tx-kit/package/contract"
-	"github.com/Planxnx/defi-tx-kit/package/enums"
+	"github.com/Planxnx/defi-tx-kit/contract"
+	"github.com/Planxnx/defi-tx-kit/enums"
 	"github.com/ethereum/go-ethereum/core/types"
 )
 

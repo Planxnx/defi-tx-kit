@@ -17,6 +17,8 @@ type TransferHandlers func(*contract.TokenTransfer) error
 type ApprovalHandlers func(*contract.TokenApproval) error
 
 func (t *TxFeeder) AddTransferLogsHandler(ctx context.Context, eventFilter ethereum.FilterQuery, handler TransferHandlers) error {
+	t.handlersLock.Lock()
+	defer t.handlersLock.Unlock()
 
 	eventFilter.Topics = [][]common.Hash{
 		{utils.TokenABI.Events[enums.TokenEventTransfer.ToString()].ID},
@@ -47,10 +49,18 @@ func (t *TxFeeder) AddTransferLogsHandler(ctx context.Context, eventFilter ether
 		return sub, nil
 	})
 
+	if t.IsRunning() {
+		if err := t.run(t.handlers[len(t.handlers)-1]); err != nil {
+			return errors.Wrap(err, "Added handler can't start")
+		}
+	}
+
 	return nil
 }
 
 func (t *TxFeeder) AddApprovalLogsHandler(ctx context.Context, eventFilter ethereum.FilterQuery, handler ApprovalHandlers) error {
+	t.handlersLock.Lock()
+	defer t.handlersLock.Unlock()
 
 	eventFilter.Topics = [][]common.Hash{
 		{utils.TokenABI.Events[enums.TokenEventApproval.ToString()].ID},
@@ -80,6 +90,12 @@ func (t *TxFeeder) AddApprovalLogsHandler(ctx context.Context, eventFilter ether
 
 		return sub, nil
 	})
+
+	if t.IsRunning() {
+		if err := t.run(t.handlers[len(t.handlers)-1]); err != nil {
+			return errors.Wrap(err, "Added handler can't start")
+		}
+	}
 
 	return nil
 }

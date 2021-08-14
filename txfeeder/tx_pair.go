@@ -22,6 +22,8 @@ type SwapAndSyncHandlers struct {
 }
 
 func (t *TxFeeder) AddSwapLogsHandler(ctx context.Context, eventFilter ethereum.FilterQuery, handler SwapHandlers) error {
+	t.handlersLock.Lock()
+	defer t.handlersLock.Unlock()
 
 	eventFilter.Topics = [][]common.Hash{
 		{utils.PairABI.Events[enums.PairEventSwap.ToString()].ID},
@@ -52,10 +54,18 @@ func (t *TxFeeder) AddSwapLogsHandler(ctx context.Context, eventFilter ethereum.
 		return sub, nil
 	})
 
+	if t.IsRunning() {
+		if err := t.run(t.handlers[len(t.handlers)-1]); err != nil {
+			return errors.Wrap(err, "Added handler can't start")
+		}
+	}
+
 	return nil
 }
 
 func (t *TxFeeder) AddSyncLogsHandler(ctx context.Context, eventFilter ethereum.FilterQuery, handler SyncHandlers) error {
+	t.handlersLock.Lock()
+	defer t.handlersLock.Unlock()
 
 	eventFilter.Topics = [][]common.Hash{
 		{utils.PairABI.Events[enums.PairEventSync.ToString()].ID},
@@ -86,10 +96,18 @@ func (t *TxFeeder) AddSyncLogsHandler(ctx context.Context, eventFilter ethereum.
 		return sub, nil
 	})
 
+	if t.IsRunning() {
+		if err := t.run(t.handlers[len(t.handlers)-1]); err != nil {
+			return errors.Wrap(err, "Added handler can't start")
+		}
+	}
+
 	return nil
 }
 
 func (t *TxFeeder) AddSwapAndSyncLogsHandler(ctx context.Context, eventFilter ethereum.FilterQuery, handlers *SwapAndSyncHandlers) error {
+	t.handlersLock.Lock()
+	defer t.handlersLock.Unlock()
 
 	eventFilter.Topics = [][]common.Hash{
 		{utils.PairABI.Events[enums.PairEventSync.ToString()].ID, utils.PairABI.Events[enums.PairEventSwap.ToString()].ID},
@@ -132,6 +150,12 @@ func (t *TxFeeder) AddSwapAndSyncLogsHandler(ctx context.Context, eventFilter et
 
 		return sub, nil
 	})
+
+	if t.IsRunning() {
+		if err := t.run(t.handlers[len(t.handlers)-1]); err != nil {
+			return errors.Wrap(err, "Added handler can't start")
+		}
+	}
 
 	return nil
 }

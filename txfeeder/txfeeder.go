@@ -124,6 +124,7 @@ func (t *TxFeeder) handleTxLogs(txLogsData interface{}, handler interface{}) {
 	//TODO: tracing or logging
 
 	defer func() {
+		//TODO: custom reocover
 		if recovered := recover(); recovered != nil {
 			log.Printf("Unexpected panic error: %+v\n", recovered)
 		}
@@ -150,6 +151,7 @@ func (t *TxFeeder) handleTxLogs(txLogsData interface{}, handler interface{}) {
 	}
 
 	if err != nil {
+		//TODO: custom error handling
 		log.Printf("Error: handler error, %+v\n", err)
 	}
 }

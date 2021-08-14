@@ -130,7 +130,7 @@ func main() {
 				amount1 = big.NewFloat(0).SetInt(swapData.Amount1In)
 			}
 
-			swapRate = big.NewFloat(0).Quo(amount1, amount0)
+			swapRate = big.NewFloat(0).Quo(amount0, amount1)
 		}
 
 		log.Printf("%v: %v %v\n", side, swapRate, lp.Token1.Symbol)

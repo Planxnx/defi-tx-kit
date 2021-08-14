@@ -44,7 +44,7 @@ const main = async () => {
 				side === TxSwapSide.BUY
 					? [swapData.amount0In, swapData.amount1Out]
 					: [swapData.amount0Out, swapData.amount1In];
-			console.log(`${side}: ${amount1 / amount0} BUSD`);
+			console.log(`${side}: ${amount0 / amount1} BUSD`);
 		}
 	});
 };

@@ -6,6 +6,7 @@ import (
 	"math/big"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 
 	"github.com/Planxnx/defi-tx-kit/contract"
@@ -16,13 +17,12 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 )
 
-type Pair struct {
-	Addresses    []common.Address
-	Dexes        []string
-	BaseAddress  common.Address
-	QuoteAddress common.Address
+type LP struct {
+	Address      common.Address
 	Token0       *Token
 	Token1       *Token
+	Dex          string
+	IsBaseToken0 bool
 	Chain        utils.Chain
 }
 
@@ -33,29 +33,35 @@ type Token struct {
 }
 
 var TokenData = map[string]*Token{
-	"BUSD": {
+	"0xe9e7cea3dedca5984780bafc599bd69add087d56": {
 		Symbol:  "BUSD",
 		Address: common.HexToAddress("0xe9e7cea3dedca5984780bafc599bd69add087d56"),
 		Chain:   utils.ChainBinanceSmartChain,
 	},
-	"BNB": {
+	"0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c": {
 		Symbol:  "BNB",
 		Address: common.HexToAddress("0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"),
 		Chain:   utils.ChainBinanceSmartChain,
 	},
 }
 
-var bnbbusdLPData = &Pair{
-	Addresses: []common.Address{
-		common.HexToAddress("0x58f876857a02d6762e0101bb5c46a8c1ed44dc16"),
-		common.HexToAddress("0xaCAac9311b0096E04Dfe96b6D87dec867d3883Dc"),
+var lpData = map[string]*LP{
+	"0x58f876857a02d6762e0101bb5c46a8c1ed44dc16": {
+		Chain:        utils.ChainBinanceSmartChain,
+		Address:      common.HexToAddress("0x58f876857a02d6762e0101bb5c46a8c1ed44dc16"),
+		Token0:       TokenData["0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"],
+		Token1:       TokenData["0xe9e7cea3dedca5984780bafc599bd69add087d56"],
+		IsBaseToken0: true,
+		Dex:          "Pancakeswap v2",
 	},
-	Dexes:        []string{"Pancake v2", "Biswap"},
-	Chain:        utils.ChainBinanceSmartChain,
-	Token0:       TokenData["BNB"],
-	Token1:       TokenData["BUSD"],
-	BaseAddress:  TokenData["BNB"].Address,
-	QuoteAddress: TokenData["BUSD"].Address,
+	"0xaCAac9311b0096E04Dfe96b6D87dec867d3883Dc": {
+		Chain:        utils.ChainBinanceSmartChain,
+		Address:      common.HexToAddress("0xaCAac9311b0096E04Dfe96b6D87dec867d3883Dc"),
+		Token0:       TokenData["0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"],
+		Token1:       TokenData["0xe9e7cea3dedca5984780bafc599bd69add087d56"],
+		IsBaseToken0: true,
+		Dex:          "Biswap",
+	},
 }
 
 func main() {
@@ -70,17 +76,22 @@ func main() {
 
 	// Event Filter
 	queryPair := ethereum.FilterQuery{
-		Addresses: bnbbusdLPData.Addresses,
+		// Addresses: []common.Address{common.HexToAddress("0x58f876857a02d6762e0101bb5c46a8c1ed44dc16")},
 	}
 
 	txFeederClient := txfeeder.New(client)
 
 	txFeederClient.AddSwapLogsHandler(ctx, queryPair, func(swapData *contract.PairSwap) error {
 
+		lp, ok := lpData[strings.ToLower(swapData.Raw.Address.String())]
+		if !ok {
+			return nil
+		}
+
 		var side enums.SwapTxSide
 		var swapRate *big.Float
 
-		if bnbbusdLPData.Token0.Address == bnbbusdLPData.BaseAddress {
+		if lp.IsBaseToken0 {
 			if swapData.Amount0Out.Sign() > 0 {
 				side = enums.SwapBuy
 			} else if swapData.Amount0In.Sign() > 0 {
@@ -122,7 +133,7 @@ func main() {
 			swapRate = big.NewFloat(0).Quo(amount1, amount0)
 		}
 
-		log.Printf("%v: %v BUSD\n", side, swapRate)
+		log.Printf("%v: %v %v\n", side, swapRate, lp.Token1.Symbol)
 
 		return nil
 	})
